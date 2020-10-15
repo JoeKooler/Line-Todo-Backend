@@ -7,8 +7,17 @@ app.use(express.json());
 require("./DB");
 
 const channel_id = process.env.LINE_CHANNEL_ID;
+app.get("/", (req, res) => {
+  res.send("hi " + process.env.HI);
+});
+
+app.post("/check", (req, res) => {
+  res.send(res.body);
+});
+
 app.post("/", async (req, res) => {
   let eiei = "";
+  console.log("eiei");
   await axios
     .get(
       `https://api.line.me/oauth2/v2.1/verify?access_token=${req.body.access_token}`,
