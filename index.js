@@ -11,7 +11,7 @@ app.post("/", async (req, res) => {
   let eiei = "";
   await axios
     .get(
-      `https://api.line.me/oauth2/v2.1/verify?access_token=${res.body.access_token}`,
+      `https://api.line.me/oauth2/v2.1/verify?access_token=${req.body.access_token}`,
       { json: true }
     )
     .then((res) => {
