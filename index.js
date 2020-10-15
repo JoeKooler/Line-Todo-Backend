@@ -26,8 +26,11 @@ app.post("/", async (req, res) => {
       console.log(res);
       eiei = res.data;
     });
-
-  res.send(eiei.client_id + " & " + channel_id);
+  console.log(eiei.client_id + " & " + channel_id);
+  res.send([
+    { content: "eiei", id: 0 },
+    { content: "hihi", id: 1 },
+  ]);
 });
 
 app.get("/profile", async (req, res) => {
