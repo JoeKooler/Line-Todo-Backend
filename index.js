@@ -10,7 +10,8 @@ const channel_id = process.env.LINE_CHANNEL_ID;
 console.log("Hi" + process.env.HI);
 
 app.post("/check", (req, res) => {
-  res.send(res.body);
+  console.log(req.body);
+  res.send(req.body);
 });
 
 app.post("/", async (req, res) => {
