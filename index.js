@@ -7,9 +7,7 @@ app.use(express.json());
 require("./DB");
 
 const channel_id = process.env.LINE_CHANNEL_ID;
-app.get("/", (req, res) => {
-  res.send("hi " + process.env.HI);
-});
+console.log("Hi" + process.env.HI);
 
 app.post("/check", (req, res) => {
   res.send(res.body);
