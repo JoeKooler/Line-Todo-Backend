@@ -11,19 +11,13 @@ require("./DB");
 
 app.post("/", Auth, async (req, res) => {
   const { todos } = req.user;
-  console.log("User " + req.user);
   res.send(todos);
 });
 
 app.post("/addTodo", Auth, async (req, res) => {
   const user = req.user;
-  console.log("Add todo " + user);
-  const newTodo = {
-    content: req.body.todo.content,
-  };
-  user.todos.push(newTodo);
+  user.todos.push(req.body.todo);
   await user.save();
-  console.log("Check todo " + user);
   res.send(user.todos);
 });
 
