@@ -27,7 +27,7 @@ const GetUserID = async (access_token) => {
     console.log(res.data);
     user = res.data;
   });
-  return user;
+  return user.userId;
 };
 
 const Auth = async (req, res, next) => {
