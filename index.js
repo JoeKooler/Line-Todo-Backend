@@ -11,6 +11,7 @@ require("./DB");
 
 app.post("/", Auth, async (req, res) => {
   const { todos } = req.user;
+  console.log("User " + req.user);
   res.send(todos);
 });
 
