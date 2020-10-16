@@ -18,9 +18,7 @@ const GetUserID = async (access_token) => {
     url: "https://api.line.me/v2/profile",
     headers: { Authorization: `Bearer ${access_token}` },
     json: true,
-  }).then((res) => {
-    res.data.userId;
-  });
+  }).then((res) => res.data.userId);
   return userID;
 };
 
