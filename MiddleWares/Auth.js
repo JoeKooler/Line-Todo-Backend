@@ -33,7 +33,7 @@ const Auth = async (req, res, next) => {
   });
 
   if (!user) {
-    const newUser = new User({ userID: user.userId });
+    const newUser = new User({ userID: userID });
     await newUser.save();
     user = newUser;
   }
