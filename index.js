@@ -18,9 +18,12 @@ app.post("/", Auth, async (req, res) => {
 app.post("/addTodo", Auth, async (req, res) => {
   const user = req.user;
   console.log("Add todo " + user);
-  console.log("Check todo " + JSON.stringify(req.body.todo));
-  await user.todos.push(req.body.todo);
+  const newTodo = {
+    content: req.body.todo.content,
+  };
+  user.todos.push(newTodo);
   await user.save();
+  console.log("Check todo " + user);
   res.send(user.todos);
 });
 
