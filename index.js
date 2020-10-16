@@ -1,48 +1,32 @@
-const axios = require("axios");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
-
+const Auth = require("./MiddleWares/Auth");
+const User = require("./Models/User");
 app.use(express.json());
 app.use(cors());
 
 require("./DB");
 
-const channel_id = process.env.LINE_CHANNEL_ID;
-console.log("Hi" + process.env.HI);
-
-app.post("/check", (req, res) => {
-  console.log(req.body);
-  res.send(req.body);
+app.post("/", Auth, async (req, res) => {
+  const { todos } = req.user;
+  res.send(todos);
 });
 
-app.post("/", async (req, res) => {
-  let eiei = "";
-  console.log("eiei");
-  await axios
-    .get(
-      `https://api.line.me/oauth2/v2.1/verify?access_token=${req.body.access_token}`,
-      { json: true }
-    )
-    .then((res) => {
-      console.log(res);
-      eiei = res.data;
-    });
-  console.log(eiei.client_id + " & " + channel_id);
-  res.send([
-    { content: "eiei", id: 0 },
-    { content: "hihi", id: 1 },
-  ]);
+app.post("/addTodo", Auth, async (req, res) => {
+  const user = await User.findOne(req.user);
+  user.todos.push(req.todo);
+  await user.save();
+  res.send(user.todos);
 });
 
-app.get("/profile", async (req, res) => {
-  axios({
-    method: "get",
-    url: "https://api.line.me/v2/profile",
-    headers: { Authorization: `Bearer ${access_token}` },
-    json: true,
-  }).then((res) => console.log(res.data));
-  res.send("eiei");
+app.post("/deleteTodo", async (req, res) => {
+  res.send("POST request to the homepage");
 });
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+app.post("/editTodo", async (req, res) => {
+  res.send("POST request to the homepage");
+});
+
+app.listen(port, () => console.log(`listening on port ${port}!`));

@@ -1,0 +1,54 @@
+const axios = require("axios");
+
+const User = require("../Models/User");
+const channel_id = process.env.LINE_CHANNEL_ID;
+
+const UserVerify = async (access_token) => {
+  let resData = "";
+  await axios
+    .get(
+      `https://api.line.me/oauth2/v2.1/verify?access_token=${access_token}`,
+      { json: true }
+    )
+    .then((res) => {
+      console.log(res.data);
+      resData = res.data;
+    });
+  return resData === channel_id;
+};
+const GetUserID = async (access_token) => {
+  let user = "";
+  await axios({
+    method: "get",
+    url: "https://api.line.me/v2/profile",
+    headers: { Authorization: `Bearer ${access_token}` },
+    json: true,
+  }).then((res) => {
+    console.log(res.data);
+    user = res.data;
+  });
+  return user;
+};
+
+const Auth = async (req, res, next) => {
+  try {
+    let userID = "";
+    await UserVerify(req.access_token);
+    userID = await GetUserID(req.access_token);
+    let user = await User.findOne({
+      userID: user.userId,
+    });
+
+    if (!user) {
+      const newUser = new User({ userID: user.userId });
+      await newUser.save();
+      user = newUser;
+    }
+    req.user = user;
+    next();
+  } catch (e) {
+    res.status(401).send({ error: "Please authenticate." });
+  }
+};
+
+module.exports = Auth;
