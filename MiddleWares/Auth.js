@@ -36,7 +36,7 @@ const Auth = async (req, res, next) => {
   await UserVerify(req.body.access_token);
   userID = await GetUserID(req.body.access_token);
   let user = await User.findOne({
-    userID: user.userId,
+    userID: userID,
   });
 
   if (!user) {
