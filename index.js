@@ -17,7 +17,7 @@ app.post("/", Auth, async (req, res) => {
 
 app.post("/addTodo", Auth, async (req, res) => {
   const user = await User.findOne(req.user);
-  user.todos.push(req.todo);
+  user.todos.push(req.body.todo);
   await user.save();
   res.send(user.todos);
 });
