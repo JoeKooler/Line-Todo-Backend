@@ -19,7 +19,7 @@ app.post("/addTodo", Auth, async (req, res) => {
   const user = req.user;
   console.log("Add todo " + user);
   console.log("Check todo " + JSON.stringify(req.body.todo));
-  user.todos.push(req.body.todo);
+  await user.todos.push(req.body.todo);
   await user.save();
   res.send(user.todos);
 });
