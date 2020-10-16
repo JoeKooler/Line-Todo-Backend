@@ -8,10 +8,8 @@ const UserSchema = new Schema({
   },
   todos: [
     {
-      todo: {
-        content: {
-          type: String,
-        },
+      content: {
+        type: String,
       },
     },
   ],
