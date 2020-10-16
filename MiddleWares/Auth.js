@@ -31,24 +31,20 @@ const GetUserID = async (access_token) => {
 };
 
 const Auth = async (req, res, next) => {
-  try {
-    let userID = "";
-    await UserVerify(req.access_token);
-    userID = await GetUserID(req.access_token);
-    let user = await User.findOne({
-      userID: user.userId,
-    });
+  let userID = "";
+  await UserVerify(req.access_token);
+  userID = await GetUserID(req.access_token);
+  let user = await User.findOne({
+    userID: user.userId,
+  });
 
-    if (!user) {
-      const newUser = new User({ userID: user.userId });
-      await newUser.save();
-      user = newUser;
-    }
-    req.user = user;
-    next();
-  } catch (e) {
-    res.status(401).send({ error: "Please authenticate." });
+  if (!user) {
+    const newUser = new User({ userID: user.userId });
+    await newUser.save();
+    user = newUser;
   }
+  req.user = user;
+  next();
 };
 
 module.exports = Auth;
