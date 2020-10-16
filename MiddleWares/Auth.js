@@ -25,10 +25,9 @@ const GetUserID = async (access_token) => {
 };
 
 const Auth = async (req, res, next) => {
-  let userID = "";
   console.log("Token " + req.body.access_token);
   await UserVerify(req.body.access_token);
-  userID = await GetUserID(req.body.access_token);
+  const userID = await GetUserID(req.body.access_token);
   let user = await User.findOne({
     userID: userID,
   });
